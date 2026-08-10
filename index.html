@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cricket Tournament 2026 — Sri Srisrimal Sethiya Jain Sangh Tamilnadu</title>
+  <meta name="description" content="Register for the Cricket Tournament organised by Sri Srisrimal Sethiya Jain Sangh Tamilnadu. Open for men aged 18 and above." />
+  <link rel="icon" href="logo.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Floating cricket balls background -->
+  <div class="bg-elements" aria-hidden="true">
+    <div class="cricket-ball cb-1">🏏</div>
+    <div class="cricket-ball cb-2">🏏</div>
+    <div class="cricket-ball cb-3">🏏</div>
+    <div class="cricket-ball cb-4">🏏</div>
+    <div class="cricket-ball cb-5">🏏</div>
+    <div class="cricket-ball cb-6">🏏</div>
+  </div>
+
+  <!-- Gradient overlay -->
+  <div class="gradient-overlay" aria-hidden="true"></div>
+
+  <main class="container">
+    <!-- ============ HERO SECTION ============ -->
+    <section class="hero" id="hero">
+      <div class="logo-wrapper animate-on-scroll">
+        <img src="logo.png" alt="Sri Srisrimal Sethiya Jain Sangh Tamilnadu Logo" class="logo" id="logo" />
+        <div class="logo-glow"></div>
+      </div>
+
+      <h1 class="org-name animate-on-scroll">
+        <span class="org-line">Sri Srisrimal Sethiya</span>
+        <span class="org-line">Jain Sangh</span>
+        <span class="org-line org-highlight">Tamilnadu</span>
+      </h1>
+
+      <div class="divider animate-on-scroll">
+        <span class="divider-line"></span>
+        <span class="divider-icon">🏏</span>
+        <span class="divider-line"></span>
+      </div>
+
+      <h2 class="event-title animate-on-scroll">
+        <span class="event-pre">Presents</span>
+        <span class="event-main">Cricket Tournament <span class="year-badge">2026</span></span>
+      </h2>
+
+      <div class="event-badges animate-on-scroll">
+        <span class="badge badge-men">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a6.5 6.5 0 0 1 13 0"/></svg>
+          Men's Only
+        </span>
+        <span class="badge badge-age">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          18+ Years
+        </span>
+        <span class="badge badge-date">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          Dates — Announcing Soon
+        </span>
+      </div>
+    </section>
+
+    <!-- ============ REGISTRATION FORM ============ -->
+    <section class="form-section" id="registration">
+      <div class="form-header animate-on-scroll">
+        <h2 class="form-title">Player Registration</h2>
+        <p class="form-subtitle">Fill in your details to register for the tournament</p>
+      </div>
+
+      <form id="registrationForm" class="reg-form" novalidate>
+        <!-- Personal Details Card -->
+        <div class="form-card animate-on-scroll">
+          <div class="card-header">
+            <div class="card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a6.5 6.5 0 0 1 13 0"/></svg>
+            </div>
+            <h3>Personal Details</h3>
+          </div>
+
+          <div class="form-group">
+            <label for="fullName" class="form-label">Full Name <span class="required">*</span></label>
+            <div class="input-wrapper">
+              <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a6.5 6.5 0 0 1 13 0"/></svg>
+              <input type="text" id="fullName" name="fullName" class="form-input" placeholder="Enter your full name" required autocomplete="name" />
+            </div>
+            <span class="error-msg" id="fullNameError"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="phone" class="form-label">Phone Number <span class="required">*</span></label>
+            <div class="input-wrapper">
+              <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.86 19.86 0 0 1 3.09 5.18 2 2 0 0 1 5.11 3h3a2 2 0 0 1 2 1.72c.13.81.36 1.6.68 2.34a2 2 0 0 1-.45 2.11L8.91 10.6a16 16 0 0 0 6.49 6.49l1.43-1.43a2 2 0 0 1 2.11-.45c.74.32 1.53.55 2.34.68A2 2 0 0 1 22 16.92z"/></svg>
+              <input type="tel" id="phone" name="phone" class="form-input" placeholder="Enter 10-digit mobile number" required maxlength="10" pattern="[0-9]{10}" autocomplete="tel" />
+            </div>
+            <span class="helper-text">This will be your unique registration identity</span>
+            <span class="error-msg" id="phoneError"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="area" class="form-label">Area (Location) <span class="required">*</span></label>
+            <div class="input-wrapper">
+              <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <input type="text" id="area" name="area" class="form-input" placeholder="Enter your area (e.g., Mogappair)" required autocomplete="address-level2" />
+            </div>
+            <span class="error-msg" id="areaError"></span>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group flex-2">
+              <label for="dob" class="form-label">Date of Birth <span class="required">*</span></label>
+              <div class="input-wrapper">
+                <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                <input type="date" id="dob" name="dob" class="form-input" required />
+              </div>
+              <span class="error-msg" id="dobError"></span>
+            </div>
+
+            <div class="form-group flex-1">
+              <label class="form-label">Age</label>
+              <div class="age-display" id="ageDisplay">
+                <span class="age-value" id="ageValue">—</span>
+                <span class="age-label">years</span>
+              </div>
+              <span class="age-status" id="ageStatus"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cricket Skills Card -->
+        <div class="form-card animate-on-scroll">
+          <div class="card-header">
+            <div class="card-icon">
+              <span>🏏</span>
+            </div>
+            <h3>Cricket Skills</h3>
+          </div>
+
+          <p class="card-desc">Select your primary playing role and optionally describe your style</p>
+
+          <div class="skills-grid">
+            <!-- Batsman -->
+            <div class="skill-option" id="skillBatsman">
+              <input type="checkbox" name="primarySkill" value="Batsman" id="radioBatsman" class="skill-radio" />
+              <label for="radioBatsman" class="skill-card">
+                <div class="skill-icon-wrap">
+                  <span class="skill-emoji">🏏</span>
+                </div>
+                <span class="skill-name">Batsman</span>
+                <span class="skill-check">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </span>
+              </label>
+              <div class="skill-detail" id="batsmanDetail">
+                <div class="skill-tags">
+                  <button type="button" class="tag-btn" data-target="batsmanDesc">Right-Hand</button>
+                  <button type="button" class="tag-btn" data-target="batsmanDesc">Left-Hand</button>
+                  <button type="button" class="tag-btn" data-target="batsmanDesc">Opening Batsman</button>
+                  <button type="button" class="tag-btn" data-target="batsmanDesc">Top-Order</button>
+                  <button type="button" class="tag-btn" data-target="batsmanDesc">Middle-Order</button>
+                  <button type="button" class="tag-btn" data-target="batsmanDesc">Finisher</button>
+                  <button type="button" class="tag-btn" data-target="batsmanDesc">Power Hitter</button>
+                  <button type="button" class="tag-btn" data-target="batsmanDesc">Anchor</button>
+                  <button type="button" class="tag-btn" data-target="batsmanDesc">Stroke Player</button>
+                </div>
+                <textarea id="batsmanDesc" name="batsmanDesc" class="skill-textarea" placeholder="Describe your batting style (optional)&#10;e.g., Aggressive right-hand opening batsman, strong on the off-side" rows="3"></textarea>
+              </div>
+            </div>
+
+            <!-- Bowler -->
+            <div class="skill-option" id="skillBowler">
+              <input type="checkbox" name="primarySkill" value="Bowler" id="radioBowler" class="skill-radio" />
+              <label for="radioBowler" class="skill-card">
+                <div class="skill-icon-wrap">
+                  <span class="skill-emoji">⚾</span>
+                </div>
+                <span class="skill-name">Bowler</span>
+                <span class="skill-check">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </span>
+              </label>
+              <div class="skill-detail" id="bowlerDetail">
+                <div class="skill-tags">
+                  <button type="button" class="tag-btn" data-target="bowlerDesc">Right-Arm Fast</button>
+                  <button type="button" class="tag-btn" data-target="bowlerDesc">Left-Arm Fast</button>
+                  <button type="button" class="tag-btn" data-target="bowlerDesc">Right-Arm Medium</button>
+                  <button type="button" class="tag-btn" data-target="bowlerDesc">Left-Arm Medium</button>
+                  <button type="button" class="tag-btn" data-target="bowlerDesc">Off-Spin</button>
+                  <button type="button" class="tag-btn" data-target="bowlerDesc">Leg-Spin</button>
+                  <button type="button" class="tag-btn" data-target="bowlerDesc">Left-Arm Orthodox</button>
+                  <button type="button" class="tag-btn" data-target="bowlerDesc">Seam Bowler</button>
+                  <button type="button" class="tag-btn" data-target="bowlerDesc">Swing Bowler</button>
+                  <button type="button" class="tag-btn" data-target="bowlerDesc">Yorker Specialist</button>
+                </div>
+                <textarea id="bowlerDesc" name="bowlerDesc" class="skill-textarea" placeholder="Describe your bowling style (optional)&#10;e.g., Right-arm fast bowler with good seam movement and yorker variations" rows="3"></textarea>
+              </div>
+            </div>
+
+            <!-- All-Rounder -->
+            <div class="skill-option" id="skillAllRounder">
+              <input type="checkbox" name="primarySkill" value="All-Rounder" id="radioAllRounder" class="skill-radio" />
+              <label for="radioAllRounder" class="skill-card">
+                <div class="skill-icon-wrap">
+                  <span class="skill-emoji">⭐</span>
+                </div>
+                <span class="skill-name">All-Rounder</span>
+                <span class="skill-check">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </span>
+              </label>
+              <div class="skill-detail" id="allRounderDetail">
+                <div class="skill-tags">
+                  <button type="button" class="tag-btn" data-target="allRounderDesc">Batting All-Rounder</button>
+                  <button type="button" class="tag-btn" data-target="allRounderDesc">Bowling All-Rounder</button>
+                  <button type="button" class="tag-btn" data-target="allRounderDesc">Right-Hand Bat</button>
+                  <button type="button" class="tag-btn" data-target="allRounderDesc">Left-Hand Bat</button>
+                  <button type="button" class="tag-btn" data-target="allRounderDesc">Right-Arm Fast</button>
+                  <button type="button" class="tag-btn" data-target="allRounderDesc">Spin Bowler</button>
+                  <button type="button" class="tag-btn" data-target="allRounderDesc">Wicketkeeper-Batsman</button>
+                </div>
+                <textarea id="allRounderDesc" name="allRounderDesc" class="skill-textarea" placeholder="Describe your all-round abilities (optional)&#10;e.g., Right-hand middle-order batsman and right-arm off-spin bowler" rows="3"></textarea>
+              </div>
+            </div>
+          </div>
+          <span class="error-msg" id="skillError"></span>
+        </div>
+
+        <!-- Declaration & Submit -->
+        <div class="form-card animate-on-scroll">
+          <div class="declaration-box">
+            <input type="checkbox" id="declaration" name="declaration" class="decl-checkbox" required />
+            <label for="declaration" class="decl-label">
+              <span class="decl-checkmark">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              <span class="decl-text">I hereby declare that all the information provided above is <strong>100% true and correct</strong> to the best of my knowledge. I understand that any false information may lead to disqualification.</span>
+            </label>
+          </div>
+          <span class="error-msg" id="declarationError"></span>
+
+          <button type="submit" id="submitBtn" class="submit-btn" disabled>
+            <span class="btn-text">Register Now</span>
+            <span class="btn-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+            <span class="btn-loader" aria-hidden="true">
+              <span class="loader-dot"></span>
+              <span class="loader-dot"></span>
+              <span class="loader-dot"></span>
+            </span>
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- ============ FOOTER / CONTACT ============ -->
+    <footer class="footer animate-on-scroll" id="footer">
+      <div class="footer-content">
+        <div class="footer-divider">
+          <span class="divider-line"></span>
+          <span class="divider-icon">🏏</span>
+          <span class="divider-line"></span>
+        </div>
+        <p class="footer-query">For any queries, contact</p>
+        <div class="footer-contact">
+          <span class="contact-name">Rohit Jain — Mogappair</span>
+          <a href="tel:8608223030" class="contact-phone">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.86 19.86 0 0 1 3.09 5.18 2 2 0 0 1 5.11 3h3a2 2 0 0 1 2 1.72c.13.81.36 1.6.68 2.34a2 2 0 0 1-.45 2.11L8.91 10.6a16 16 0 0 0 6.49 6.49l1.43-1.43a2 2 0 0 1 2.11-.45c.74.32 1.53.55 2.34.68A2 2 0 0 1 22 16.92z"/></svg>
+            8608223030
+          </a>
+        </div>
+        <p class="footer-copy">&copy; 2026 Sri Srisrimal Sethiya Jain Sangh Tamilnadu. All rights reserved.</p>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Success Modal -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal-content">
+      <div class="modal-icon">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10" class="modal-circle"/>
+          <polyline points="8 12 11 15 16 9" class="modal-check"/>
+        </svg>
+      </div>
+      <h3 class="modal-title">Registration Successful! 🎉</h3>
+      <p class="modal-text">Welcome to the tournament! You have been successfully registered. We will contact you on your registered phone number with further details.</p>
+      <p class="modal-sub">Best of luck, champion! 🏏</p>
+      <button class="modal-btn" id="modalCloseBtn">Got it!</button>
+    </div>
+  </div>
+
+  <!-- Already Registered Modal -->
+  <div class="modal-overlay" id="duplicateModal">
+    <div class="modal-content modal-warning">
+      <div class="modal-icon modal-icon-warn">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+      </div>
+      <h3 class="modal-title">Already Registered!</h3>
+      <p class="modal-text">This phone number has already been used for registration. Each player can register only once.</p>
+      <p class="modal-sub">If you have any concerns, please contact the organiser.</p>
+      <button class="modal-btn modal-btn-warn" id="duplicateCloseBtn">Understood</button>
+    </div>
+  </div>
+
+  <!-- Confetti Library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

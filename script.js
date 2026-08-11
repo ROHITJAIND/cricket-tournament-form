@@ -185,7 +185,7 @@
       osc.frequency.setValueAtTime(6200, audioCtx.currentTime);
       osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.015);
 
-      gainNode.gain.setValueAtTime(0.04, audioCtx.currentTime);
+      gainNode.gain.setValueAtTime(0.4, audioCtx.currentTime);
       gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.015);
 
       osc.connect(gainNode);
@@ -201,7 +201,7 @@
   function playSuccessSound() {
     try {
       initAudio();
-      
+
       // Play a happy 4-note ascending chime (C5, E5, G5, C6)
       const notes = [
         { freq: 523.25, time: 0 },
@@ -218,7 +218,7 @@
         osc.frequency.value = note.freq;
 
         gainNode.gain.setValueAtTime(0, audioCtx.currentTime + note.time);
-        gainNode.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + note.time + 0.05);
+        gainNode.gain.linearRampToValueAtTime(0.8, audioCtx.currentTime + note.time + 0.05);
         gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + note.time + 0.4);
 
         osc.connect(gainNode);
@@ -227,7 +227,7 @@
         osc.start(audioCtx.currentTime + note.time);
         osc.stop(audioCtx.currentTime + note.time + 0.4);
       });
-    } catch (e) {}
+    } catch (e) { }
   }
 
   // Highlight the selected item in a wheel

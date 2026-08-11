@@ -112,33 +112,21 @@
           <div class="form-row">
             <div class="form-group flex-2">
               <label class="form-label">Date of Birth <span class="required">*</span></label>
-              <div class="dob-selects">
-                <div class="dob-select-wrap">
-                  <select id="dobDay" class="form-input dob-select" required>
-                    <option value="" disabled selected>Day</option>
-                  </select>
+              <div class="dob-wheel-picker" id="dobWheelPicker">
+                <div class="wheel-highlight"></div>
+                <div class="wheel-fade wheel-fade-top"></div>
+                <div class="wheel-fade wheel-fade-bottom"></div>
+                <div class="wheel-column" id="wheelDayCol">
+                  <div class="wheel-label">Day</div>
+                  <div class="wheel-scroll" id="wheelDay"></div>
                 </div>
-                <div class="dob-select-wrap">
-                  <select id="dobMonth" class="form-input dob-select" required>
-                    <option value="" disabled selected>Month</option>
-                    <option value="01">January</option>
-                    <option value="02">February</option>
-                    <option value="03">March</option>
-                    <option value="04">April</option>
-                    <option value="05">May</option>
-                    <option value="06">June</option>
-                    <option value="07">July</option>
-                    <option value="08">August</option>
-                    <option value="09">September</option>
-                    <option value="10">October</option>
-                    <option value="11">November</option>
-                    <option value="12">December</option>
-                  </select>
+                <div class="wheel-column wheel-column-month" id="wheelMonthCol">
+                  <div class="wheel-label">Month</div>
+                  <div class="wheel-scroll" id="wheelMonth"></div>
                 </div>
-                <div class="dob-select-wrap">
-                  <select id="dobYear" class="form-input dob-select" required>
-                    <option value="" disabled selected>Year</option>
-                  </select>
+                <div class="wheel-column" id="wheelYearCol">
+                  <div class="wheel-label">Year</div>
+                  <div class="wheel-scroll" id="wheelYear"></div>
                 </div>
               </div>
               <input type="hidden" id="dob" name="dob" />

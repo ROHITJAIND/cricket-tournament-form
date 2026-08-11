@@ -83,65 +83,166 @@
     observer.observe(el);
   });
 
-  // ---- DOB Dropdown Setup ----
-  const dobDay = document.getElementById('dobDay');
-  const dobMonth = document.getElementById('dobMonth');
-  const dobYear = document.getElementById('dobYear');
+  // ---- DOB Scroll Wheel Picker ----
+  const ITEM_HEIGHT = 32;
+  const VISIBLE_ITEMS = 5;
+  const PADDING_ITEMS = 2; // empty items above/below for centering
 
-  // Populate days (1-31)
-  for (let d = 1; d <= 31; d++) {
-    const opt = document.createElement('option');
-    opt.value = String(d).padStart(2, '0');
-    opt.textContent = d;
-    dobDay.appendChild(opt);
-  }
+  const wheelDay = document.getElementById('wheelDay');
+  const wheelMonth = document.getElementById('wheelMonth');
+  const wheelYear = document.getElementById('wheelYear');
 
-  // Populate years (current year down to 1920)
-  const currentYear = new Date().getFullYear();
-  for (let y = currentYear; y >= 1920; y--) {
-    const opt = document.createElement('option');
-    opt.value = y;
-    opt.textContent = y;
-    dobYear.appendChild(opt);
-  }
+  const months = [
+    { value: '01', label: 'Jan' },
+    { value: '02', label: 'Feb' },
+    { value: '03', label: 'Mar' },
+    { value: '04', label: 'Apr' },
+    { value: '05', label: 'May' },
+    { value: '06', label: 'Jun' },
+    { value: '07', label: 'Jul' },
+    { value: '08', label: 'Aug' },
+    { value: '09', label: 'Sep' },
+    { value: '10', label: 'Oct' },
+    { value: '11', label: 'Nov' },
+    { value: '12', label: 'Dec' },
+  ];
 
-  // Update days when month/year change (handles Feb, 30/31 day months)
-  function updateDays() {
-    const month = parseInt(dobMonth.value);
-    const year = parseInt(dobYear.value);
-    const selectedDay = dobDay.value;
+  // Build wheel items with padding spacers
+  function buildWheel(container, items) {
+    container.innerHTML = '';
 
-    if (!month || !year) return;
-
-    const daysInMonth = new Date(year, month, 0).getDate();
-    const currentOptions = dobDay.querySelectorAll('option:not([disabled])');
-
-    // Clear existing day options (except placeholder)
-    currentOptions.forEach(opt => opt.remove());
-
-    for (let d = 1; d <= daysInMonth; d++) {
-      const opt = document.createElement('option');
-      opt.value = String(d).padStart(2, '0');
-      opt.textContent = d;
-      dobDay.appendChild(opt);
+    // Top padding spacers
+    for (let i = 0; i < PADDING_ITEMS; i++) {
+      const spacer = document.createElement('div');
+      spacer.className = 'wheel-item wheel-spacer';
+      spacer.style.height = ITEM_HEIGHT + 'px';
+      container.appendChild(spacer);
     }
 
-    // Restore previously selected day if still valid
-    if (parseInt(selectedDay) <= daysInMonth) {
-      dobDay.value = selectedDay;
-    } else {
-      dobDay.value = '';
+    items.forEach((item) => {
+      const el = document.createElement('div');
+      el.className = 'wheel-item';
+      el.dataset.value = item.value;
+      el.textContent = item.label;
+      el.style.height = ITEM_HEIGHT + 'px';
+      el.addEventListener('click', () => {
+        const idx = items.indexOf(item);
+        container.scrollTo({ top: idx * ITEM_HEIGHT, behavior: 'smooth' });
+      });
+      container.appendChild(el);
+    });
+
+    // Bottom padding spacers
+    for (let i = 0; i < PADDING_ITEMS; i++) {
+      const spacer = document.createElement('div');
+      spacer.className = 'wheel-item wheel-spacer';
+      spacer.style.height = ITEM_HEIGHT + 'px';
+      container.appendChild(spacer);
     }
   }
 
-  dobMonth.addEventListener('change', updateDays);
-  dobYear.addEventListener('change', updateDays);
+  // Get the currently selected value from a wheel
+  function getWheelValue(container) {
+    const scrollTop = container.scrollTop;
+    const idx = Math.round(scrollTop / ITEM_HEIGHT);
+    const items = container.querySelectorAll('.wheel-item:not(.wheel-spacer)');
+    if (idx >= 0 && idx < items.length) {
+      return items[idx].dataset.value;
+    }
+    return null;
+  }
+
+  // Highlight the selected item in a wheel
+  function updateHighlight(container) {
+    const scrollTop = container.scrollTop;
+    const idx = Math.round(scrollTop / ITEM_HEIGHT);
+    const items = container.querySelectorAll('.wheel-item:not(.wheel-spacer)');
+    items.forEach((item, i) => {
+      item.classList.toggle('selected', i === idx);
+    });
+  }
+
+  // Generate day items for a given month/year
+  function getDayItems(month, year) {
+    let maxDay = 31;
+    if (month && year) {
+      maxDay = new Date(parseInt(year), parseInt(month), 0).getDate();
+    }
+    const items = [];
+    for (let d = 1; d <= maxDay; d++) {
+      items.push({ value: String(d).padStart(2, '0'), label: String(d) });
+    }
+    return items;
+  }
+
+  // Generate year items
+  function getYearItems() {
+    const currentYear = new Date().getFullYear();
+    const items = [];
+    for (let y = currentYear; y >= 1920; y--) {
+      items.push({ value: String(y), label: String(y) });
+    }
+    return items;
+  }
+
+  // Initialize wheels
+  buildWheel(wheelDay, getDayItems(null, null));
+  buildWheel(wheelMonth, months);
+  buildWheel(wheelYear, getYearItems());
+
+  // Debounce scroll for snapping
+  let scrollTimers = {};
+  function onWheelScroll(container, key) {
+    updateHighlight(container);
+
+    clearTimeout(scrollTimers[key]);
+    scrollTimers[key] = setTimeout(() => {
+      // Snap to nearest item
+      const idx = Math.round(container.scrollTop / ITEM_HEIGHT);
+      container.scrollTo({ top: idx * ITEM_HEIGHT, behavior: 'smooth' });
+      updateHighlight(container);
+
+      // Rebuild days if month or year changed
+      if (key === 'month' || key === 'year') {
+        rebuildDays();
+      }
+
+      // Recalculate age
+      onDobChange();
+    }, 100);
+  }
+
+  // Rebuild day wheel when month/year changes
+  function rebuildDays() {
+    const month = getWheelValue(wheelMonth);
+    const year = getWheelValue(wheelYear);
+    const currentDay = getWheelValue(wheelDay);
+    const dayItems = getDayItems(month, year);
+
+    buildWheel(wheelDay, dayItems);
+
+    // Try to restore previous day
+    if (currentDay) {
+      const dayIdx = dayItems.findIndex(d => d.value === currentDay);
+      if (dayIdx >= 0) {
+        wheelDay.scrollTop = dayIdx * ITEM_HEIGHT;
+      } else {
+        // Day was out of range, scroll to last valid day
+        wheelDay.scrollTop = (dayItems.length - 1) * ITEM_HEIGHT;
+      }
+    }
+    updateHighlight(wheelDay);
+  }
+
+  wheelDay.addEventListener('scroll', () => onWheelScroll(wheelDay, 'day'));
+  wheelMonth.addEventListener('scroll', () => onWheelScroll(wheelMonth, 'month'));
+  wheelYear.addEventListener('scroll', () => onWheelScroll(wheelYear, 'year'));
 
   // ---- DOB Change → Age Calculation ----
   function onDobChange() {
-    const day = dobDay.value;
-    const month = dobMonth.value;
-    const year = dobYear.value;
+    const day = getWheelValue(wheelDay);
+    const month = getWheelValue(wheelMonth);
+    const year = getWheelValue(wheelYear);
 
     if (!day || !month || !year) {
       ageValue.textContent = '—';
@@ -187,10 +288,6 @@
 
     updateSubmitState();
   }
-
-  dobDay.addEventListener('change', onDobChange);
-  dobMonth.addEventListener('change', onDobChange);
-  dobYear.addEventListener('change', onDobChange);
 
   // ---- Phone Input validation ----
   phoneInput.addEventListener('input', function () {

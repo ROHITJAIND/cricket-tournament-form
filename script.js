@@ -63,11 +63,6 @@
     return age;
   }
 
-  // Set max date for DOB (can't be future)
-  const today = new Date();
-  const maxDate = today.toISOString().split('T')[0];
-  dobInput.setAttribute('max', maxDate);
-
   // ---- Scroll Animation (Intersection Observer) ----
   const observerOptions = {
     root: null,
@@ -88,18 +83,79 @@
     observer.observe(el);
   });
 
+  // ---- DOB Dropdown Setup ----
+  const dobDay = document.getElementById('dobDay');
+  const dobMonth = document.getElementById('dobMonth');
+  const dobYear = document.getElementById('dobYear');
+
+  // Populate days (1-31)
+  for (let d = 1; d <= 31; d++) {
+    const opt = document.createElement('option');
+    opt.value = String(d).padStart(2, '0');
+    opt.textContent = d;
+    dobDay.appendChild(opt);
+  }
+
+  // Populate years (current year down to 1920)
+  const currentYear = new Date().getFullYear();
+  for (let y = currentYear; y >= 1920; y--) {
+    const opt = document.createElement('option');
+    opt.value = y;
+    opt.textContent = y;
+    dobYear.appendChild(opt);
+  }
+
+  // Update days when month/year change (handles Feb, 30/31 day months)
+  function updateDays() {
+    const month = parseInt(dobMonth.value);
+    const year = parseInt(dobYear.value);
+    const selectedDay = dobDay.value;
+
+    if (!month || !year) return;
+
+    const daysInMonth = new Date(year, month, 0).getDate();
+    const currentOptions = dobDay.querySelectorAll('option:not([disabled])');
+
+    // Clear existing day options (except placeholder)
+    currentOptions.forEach(opt => opt.remove());
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const opt = document.createElement('option');
+      opt.value = String(d).padStart(2, '0');
+      opt.textContent = d;
+      dobDay.appendChild(opt);
+    }
+
+    // Restore previously selected day if still valid
+    if (parseInt(selectedDay) <= daysInMonth) {
+      dobDay.value = selectedDay;
+    } else {
+      dobDay.value = '';
+    }
+  }
+
+  dobMonth.addEventListener('change', updateDays);
+  dobYear.addEventListener('change', updateDays);
+
   // ---- DOB Change → Age Calculation ----
-  dobInput.addEventListener('change', function () {
-    const dob = this.value;
-    if (!dob) {
+  function onDobChange() {
+    const day = dobDay.value;
+    const month = dobMonth.value;
+    const year = dobYear.value;
+
+    if (!day || !month || !year) {
       ageValue.textContent = '—';
       ageDisplay.className = 'age-display';
       ageStatus.textContent = '';
       ageStatus.className = 'age-status';
       dobError.textContent = '';
+      dobInput.value = '';
       updateSubmitState();
       return;
     }
+
+    const dob = `${year}-${month}-${day}`;
+    dobInput.value = dob; // Set hidden input for form submission
 
     const age = calculateAge(dob);
 
@@ -108,8 +164,6 @@
       ageDisplay.className = 'age-display';
       ageStatus.textContent = '';
       dobError.textContent = 'Please enter a valid date of birth';
-      dobInput.classList.add('input-error');
-      dobInput.classList.remove('input-success');
       updateSubmitState();
       return;
     }
@@ -121,24 +175,22 @@
       ageDisplay.className = 'age-display age-warn';
       ageStatus.textContent = '⚠️ Play at your own risk';
       ageStatus.className = 'age-status status-warn';
-      dobInput.classList.remove('input-error');
-      dobInput.classList.add('input-success');
     } else if (age >= 18) {
       ageDisplay.className = 'age-display age-valid';
       ageStatus.textContent = '✓ Eligible to play';
       ageStatus.className = 'age-status status-ok';
-      dobInput.classList.remove('input-error');
-      dobInput.classList.add('input-success');
     } else {
       ageDisplay.className = 'age-display age-invalid';
       ageStatus.textContent = '✗ Must be 18 or older';
       ageStatus.className = 'age-status status-fail';
-      dobInput.classList.add('input-error');
-      dobInput.classList.remove('input-success');
     }
 
     updateSubmitState();
-  });
+  }
+
+  dobDay.addEventListener('change', onDobChange);
+  dobMonth.addEventListener('change', onDobChange);
+  dobYear.addEventListener('change', onDobChange);
 
   // ---- Phone Input validation ----
   phoneInput.addEventListener('input', function () {
@@ -297,11 +349,9 @@
     // Validate DOB & age
     if (!dobInput.value) {
       dobError.textContent = 'Please select your date of birth';
-      dobInput.classList.add('input-error');
       valid = false;
     } else if (calculateAge(dobInput.value) < 18) {
       dobError.textContent = 'You must be 18 years or older to register';
-      dobInput.classList.add('input-error');
       valid = false;
     }
 

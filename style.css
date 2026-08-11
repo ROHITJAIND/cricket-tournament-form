@@ -546,6 +546,15 @@ input[type="date"] {
   color: var(--red);
 }
 
+.age-display.age-warn {
+  border-color: var(--orange);
+  background: rgba(245, 158, 11, 0.15);
+}
+
+.age-display.age-warn .age-value {
+  color: var(--orange);
+}
+
 .age-status {
   display: block;
   font-size: 0.78rem;
@@ -557,6 +566,7 @@ input[type="date"] {
 
 .age-status.status-ok { color: var(--green); }
 .age-status.status-fail { color: var(--red); }
+.age-status.status-warn { color: var(--orange); }
 
 /* ============================================================
    CRICKET SKILLS

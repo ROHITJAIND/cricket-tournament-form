@@ -117,7 +117,13 @@
     ageValue.textContent = age;
     dobError.textContent = '';
 
-    if (age >= 18) {
+    if (age > 60) {
+      ageDisplay.className = 'age-display age-warn';
+      ageStatus.textContent = '⚠️ Play at your own risk';
+      ageStatus.className = 'age-status status-warn';
+      dobInput.classList.remove('input-error');
+      dobInput.classList.add('input-success');
+    } else if (age >= 18) {
       ageDisplay.className = 'age-display age-valid';
       ageStatus.textContent = '✓ Eligible to play';
       ageStatus.className = 'age-status status-ok';

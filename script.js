@@ -198,6 +198,38 @@
     }
   }
 
+  function playSuccessSound() {
+    try {
+      initAudio();
+      
+      // Play a happy 4-note ascending chime (C5, E5, G5, C6)
+      const notes = [
+        { freq: 523.25, time: 0 },
+        { freq: 659.25, time: 0.1 },
+        { freq: 783.99, time: 0.2 },
+        { freq: 1046.50, time: 0.3 }
+      ];
+
+      notes.forEach(note => {
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.value = note.freq;
+
+        gainNode.gain.setValueAtTime(0, audioCtx.currentTime + note.time);
+        gainNode.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + note.time + 0.05);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + note.time + 0.4);
+
+        osc.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        osc.start(audioCtx.currentTime + note.time);
+        osc.stop(audioCtx.currentTime + note.time + 0.4);
+      });
+    } catch (e) {}
+  }
+
   // Highlight the selected item in a wheel
   function updateHighlight(container) {
     const scrollTop = container.scrollTop;
@@ -574,6 +606,7 @@
 
       // Show success
       showModal(successModal);
+      playSuccessSound();
 
       // 🎉 Fire Confetti!
       const count = 250;

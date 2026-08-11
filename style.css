@@ -71,6 +71,23 @@ body {
   overflow-x: hidden;
   position: relative;
   line-height: 1.6;
+
+  /* Prevent text selection and copying */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  /* Disable long-press context menu on iOS/Android */
+}
+
+/* Allow selection inside form inputs so users can still type/edit normally */
+input,
+textarea {
+  -webkit-user-select: auto;
+  -moz-user-select: auto;
+  -ms-user-select: auto;
+  user-select: auto;
 }
 
 /* ---- Floating Background Elements ---- */
@@ -249,7 +266,7 @@ body {
 .org-name {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(2.5rem, 5vw, 2.2rem);
+  font-size: clamp(2.0rem, 5vw, 2.2rem);
   line-height: 1.25;
   margin-bottom: 20px;
   letter-spacing: -0.02em;

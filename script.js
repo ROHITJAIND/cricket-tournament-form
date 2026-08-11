@@ -581,10 +581,17 @@
       .map(cb => cb.value).join(', ');
     formData.set('primarySkill', selectedSkills);
 
+    // Google Apps Script requires data to be URL-encoded (application/x-www-form-urlencoded) 
+    // to properly populate the `e.parameter` object.
+    const urlEncodedData = new URLSearchParams(formData).toString();
+
     fetch(GOOGLE_SCRIPT_URL, {
       method: 'POST',
       mode: 'no-cors',
-      body: formData
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: urlEncodedData
     })
       .then(() => {
         // With no-cors, the response is opaque, so we assume success if no network error occurred

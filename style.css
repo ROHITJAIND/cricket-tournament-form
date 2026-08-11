@@ -102,7 +102,7 @@ textarea {
 .cricket-ball {
   position: absolute;
   font-size: 2rem;
-  opacity: 0.04;
+  opacity: 0.15;
   animation: floatBall 20s ease-in-out infinite;
 }
 
@@ -225,6 +225,12 @@ textarea {
   position: relative;
   z-index: 2;
   animation: logoPulse 3s ease-in-out infinite;
+  
+  /* Logo Protection */
+  pointer-events: none;
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .logo-glow {

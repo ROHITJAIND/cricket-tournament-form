@@ -249,7 +249,7 @@ body {
 .org-name {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(1.5rem, 5vw, 2.2rem);
+  font-size: clamp(2.5rem, 5vw, 2.2rem);
   line-height: 1.25;
   margin-bottom: 20px;
   letter-spacing: -0.02em;
@@ -657,7 +657,8 @@ input[type="date"] {
 }
 
 .wheel-fade-top {
-  top: 26px; /* below label */
+  top: 26px;
+  /* below label */
   background: linear-gradient(to bottom, rgba(16, 23, 41, 0.95), transparent);
   align-items: flex-start;
   padding-top: 4px;
@@ -677,8 +678,17 @@ input[type="date"] {
 }
 
 @keyframes pulseArrow {
-  0%, 100% { opacity: 0.15; transform: scale(0.9); }
-  50% { opacity: 0.4; transform: scale(1); }
+
+  0%,
+  100% {
+    opacity: 0.15;
+    transform: scale(0.9);
+  }
+
+  50% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
 }
 
 /* Helper & Error */
@@ -1331,8 +1341,8 @@ input[type="date"] {
   }
 
   .logo {
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
   }
 
   .skill-card {

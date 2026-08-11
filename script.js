@@ -152,10 +152,49 @@
     return null;
   }
 
+  // ---- Audio Context for Tick Sound ----
+  let audioCtx;
+  function playTickSound() {
+    try {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      const osc = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+
+      osc.type = 'sine';
+      // A short, high-pitched click that sweeps down quickly
+      osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(10, audioCtx.currentTime + 0.02);
+
+      gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.02);
+
+      osc.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.02);
+    } catch (e) {
+      // Ignore audio errors (e.g., if blocked by browser policy)
+    }
+  }
+
   // Highlight the selected item in a wheel
   function updateHighlight(container) {
     const scrollTop = container.scrollTop;
     const idx = Math.round(scrollTop / ITEM_HEIGHT);
+    
+    // Play sound if index changed
+    const prevIdx = container.dataset.currentIdx;
+    if (prevIdx !== undefined && prevIdx !== String(idx)) {
+      playTickSound();
+    }
+    container.dataset.currentIdx = idx;
+
     const items = container.querySelectorAll('.wheel-item:not(.wheel-spacer)');
     items.forEach((item, i) => {
       item.classList.toggle('selected', i === idx);

@@ -518,10 +518,7 @@ body {
   box-shadow: 0 0 0 4px var(--gold-glow);
 }
 
-.form-input:focus~.input-icon,
-.form-input:focus+.input-icon {
-  /* handled by sibling positioning — icon is before input */
-}
+
 
 .input-wrapper:focus-within .input-icon {
   color: var(--gold);

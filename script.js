@@ -594,7 +594,7 @@
     // 2. Go to Extensions > Apps Script.
     // 3. Paste the provided Apps Script code and deploy it as a Web App.
     // 4. Paste the Web App URL below:
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyeHqncpxCLOfztLAcadB-LClRbvyng2Y959qhs-kDGxP28-G0fXbqRTkLWjBAldophPA/exec';
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzTivCWKIHnC1pOXJB8wo6v1f3zwVcby01y0iHxmzJzhdQgj8QPYb1pIkc-8sO92wr7/exec';
 
     // Send data to Google Sheets
     const formData = new FormData(form);

@@ -184,31 +184,85 @@
     try {
       initAudio();
 
-      // Play a happy 4-note ascending chime (C5, E5, G5, C6)
+      // Master Compressor to prevent clipping while allowing high volume
+      const masterCompressor = audioCtx.createDynamicsCompressor();
+      masterCompressor.threshold.setValueAtTime(-24, audioCtx.currentTime);
+      masterCompressor.knee.setValueAtTime(30, audioCtx.currentTime);
+      masterCompressor.ratio.setValueAtTime(12, audioCtx.currentTime);
+      masterCompressor.attack.setValueAtTime(0.003, audioCtx.currentTime);
+      masterCompressor.release.setValueAtTime(0.25, audioCtx.currentTime);
+
+      const masterGain = audioCtx.createGain();
+      masterGain.gain.value = 2.0; // Boost the overall output
+
+      masterCompressor.connect(masterGain);
+      masterGain.connect(audioCtx.destination);
+
+      // Grand Royal Fanfare (Brass/Trumpet style)
+      // Notes: G4, C5, E5, G5, then a sustained C6 major chord
       const notes = [
-        { freq: 523.25, time: 0 },
-        { freq: 659.25, time: 0.1 },
-        { freq: 783.99, time: 0.2 },
-        { freq: 1046.50, time: 0.3 }
+        { freq: 392.00, time: 0, dur: 0.15 }, // G4
+        { freq: 523.25, time: 0.15, dur: 0.15 }, // C5
+        { freq: 659.25, time: 0.3, dur: 0.15 }, // E5
+        { freq: 783.99, time: 0.45, dur: 0.15 }, // G5
+        { freq: 1046.50, time: 0.6, dur: 1.2 },  // C6 (Final grand note)
+        { freq: 523.25, time: 0.6, dur: 1.2 },  // C5 (harmony)
+        { freq: 659.25, time: 0.6, dur: 1.2 }   // E5 (harmony)
       ];
 
       notes.forEach(note => {
-        const osc = audioCtx.createOscillator();
-        const gainNode = audioCtx.createGain();
+        // Two oscillators per note for a thick "brass section" chorus effect
+        ['square', 'sawtooth'].forEach(type => {
+          const osc = audioCtx.createOscillator();
+          const gainNode = audioCtx.createGain();
 
-        osc.type = 'sine';
-        osc.frequency.value = note.freq;
+          osc.type = type;
+          osc.frequency.value = note.freq;
+          // Slight detuning thickens the sound
+          osc.detune.value = type === 'square' ? 4 : -4;
 
-        gainNode.gain.setValueAtTime(0, audioCtx.currentTime + note.time);
-        gainNode.gain.linearRampToValueAtTime(0.8, audioCtx.currentTime + note.time + 0.05);
-        gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + note.time + 0.4);
+          // Loud Brass volume envelope
+          gainNode.gain.setValueAtTime(0, audioCtx.currentTime + note.time);
+          gainNode.gain.linearRampToValueAtTime(0.8, audioCtx.currentTime + note.time + 0.02);
+          gainNode.gain.exponentialRampToValueAtTime(0.4, audioCtx.currentTime + note.time + 0.1);
+          gainNode.gain.linearRampToValueAtTime(0.001, audioCtx.currentTime + note.time + note.dur);
 
-        osc.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
+          // Lowpass filter for warm brass tone
+          const filter = audioCtx.createBiquadFilter();
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(3000, audioCtx.currentTime + note.time);
+          filter.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + note.time + note.dur);
 
-        osc.start(audioCtx.currentTime + note.time);
-        osc.stop(audioCtx.currentTime + note.time + 0.4);
+          osc.connect(filter);
+          filter.connect(gainNode);
+          gainNode.connect(masterCompressor);
+
+          osc.start(audioCtx.currentTime + note.time);
+          osc.stop(audioCtx.currentTime + note.time + note.dur);
+        });
       });
+
+      // Speak "Thank you" after the fanfare finishes (Fanfare takes 1.8s)
+      setTimeout(() => {
+        if ('speechSynthesis' in window) {
+          // Hindi slang phrase
+          const speech = new SpeechSynthesisUtterance("Thank you.");
+
+          // Try to find an Indian English or Hindi voice for the accent
+          const voices = window.speechSynthesis.getVoices();
+          const desiVoice = voices.find(v => v.lang === 'en-IN' || v.lang === 'hi-IN')
+            || voices.find(v => v.lang.startsWith('en'))
+            || voices[0];
+
+          if (desiVoice) {
+            speech.voice = desiVoice;
+          }
+          speech.pitch = 1.0;
+          speech.rate = 0.95;
+          window.speechSynthesis.speak(speech);
+        }
+      }, 1800);
+
     } catch (e) { }
   }
 

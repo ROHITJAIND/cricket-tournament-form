@@ -31,27 +31,7 @@
   const skillError = document.getElementById('skillError');
   const declarationError = document.getElementById('declarationError');
 
-  // localStorage key for registered phone numbers
-  const STORAGE_KEY = 'cricket_registered_phones';
 
-  // ---- Helpers ----
-  function getRegisteredPhones() {
-    try {
-      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-    } catch {
-      return [];
-    }
-  }
-
-  function savePhone(phone) {
-    const phones = getRegisteredPhones();
-    phones.push(phone);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(phones));
-  }
-
-  function isPhoneRegistered(phone) {
-    return getRegisteredPhones().includes(phone);
-  }
 
   // ---- Age Calculation ----
   function calculateAge(dob) {
@@ -576,11 +556,7 @@
 
     if (!valid) return;
 
-    // Check duplicate phone
-    if (isPhoneRegistered(phone)) {
-      showModal(duplicateModal);
-      return;
-    }
+
 
     // Show loading
     submitBtn.classList.add('loading');
@@ -628,8 +604,7 @@
       });
 
     function onSuccess() {
-      // Save phone
-      savePhone(phone);
+
 
       // Reset button
       submitBtn.classList.remove('loading');

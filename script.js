@@ -7,6 +7,7 @@
   // ---- DOM References ----
   const form = document.getElementById('registrationForm');
   const fullNameInput = document.getElementById('fullName');
+  const emailInput = document.getElementById('email');
   const phoneInput = document.getElementById('phone');
   const areaInput = document.getElementById('area');
   const dobInput = document.getElementById('dob');
@@ -23,6 +24,7 @@
 
   // Error elements
   const fullNameError = document.getElementById('fullNameError');
+  const emailError = document.getElementById('emailError');
   const phoneError = document.getElementById('phoneError');
   const areaError = document.getElementById('areaError');
   const dobError = document.getElementById('dobError');
@@ -418,6 +420,18 @@
     updateSubmitState();
   });
 
+  // ---- Email Input validation ----
+  emailInput.addEventListener('input', function () {
+    if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.value.trim())) {
+      emailError.textContent = '';
+      this.classList.remove('input-error');
+      this.classList.add('input-success');
+    } else {
+      this.classList.remove('input-success');
+    }
+    updateSubmitState();
+  });
+
   // ---- Area Input validation ----
   areaInput.addEventListener('input', function () {
     if (this.value.trim().length >= 2) {
@@ -492,13 +506,14 @@
   // ---- Submit Button State ----
   function updateSubmitState() {
     const nameValid = fullNameInput.value.trim().length >= 2;
+    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value.trim());
     const phoneValid = phoneInput.value.length === 10;
     const areaValid = areaInput.value.trim().length >= 2;
     const dobValid = dobInput.value && calculateAge(dobInput.value) >= 18;
     const skillValid = document.querySelector('input[name="primarySkill"]:checked');
     const declared = declarationCb.checked;
 
-    submitBtn.disabled = !(nameValid && phoneValid && areaValid && dobValid && skillValid && declared);
+    submitBtn.disabled = !(nameValid && emailValid && phoneValid && areaValid && dobValid && skillValid && declared);
   }
 
   // ---- Form Submission ----
@@ -511,6 +526,14 @@
     if (fullNameInput.value.trim().length < 2) {
       fullNameError.textContent = 'Please enter your full name';
       fullNameInput.classList.add('input-error');
+      valid = false;
+    }
+
+    // Validate email
+    const email = emailInput.value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      emailError.textContent = 'Please enter a valid email address';
+      emailInput.classList.add('input-error');
       valid = false;
     }
 
